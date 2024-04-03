@@ -4,34 +4,10 @@ import { UserProfileTypeCard } from "@/components/UserProfileTypeCard/UserProfil
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useState } from "react";
+import { userTypeOptions } from "./userTypeOptions";
 
 export default function Register() {
   const [selectedUserType, setSelectedUserType] = useState<string | null>(null);
-
-  const userTypeOptions = [
-    {
-      id: "2",
-      title: "Quero encontrar empregos",
-      subtitle: "Sou um desenvolvedor em busca de emprego.",
-      avatars: [
-        {
-          id: "1",
-          url: "https://randomuser.me/api/portraits/men/46.jpg",
-        },
-      ],
-    },
-    {
-      id: "1",
-      title: "Quero contratar funcionários",
-      subtitle: "Estou em busca de desenvolvedores.",
-      avatars: [
-        {
-          id: "1",
-          url: "https://randomuser.me/api/portraits/men/46.jpg",
-        },
-      ],
-    },
-  ];
 
   const handleSelectCard = (id: string) => {
     setSelectedUserType(id);
@@ -45,8 +21,8 @@ export default function Register() {
             <h3>Estamos quase lá!</h3>
             <Image
               src="/findev-medium-logo.svg"
-              width={200}
-              height={150}
+              width={140}
+              height={140}
               alt="findev-logo"
             />
 
@@ -77,13 +53,11 @@ export default function Register() {
         </div>
       </aside>
       <aside className="flex flex-col h-3/4 w-1/2  justify-center items-center space-y-2">
-        <div className="w-full">
-          <h1 className="font-poppins font-bold text-3xl max-w-xl">
+        <div className="w-full max-w-2xl">
+          <h1 className="font-poppins font-bold text-3xl  text-center">
             findev.com, conectando talentos e recrutadores as melhores
             oportunidades.
           </h1>
-          <h4>- Rafael Silva</h4>
-          <p>CEO, findev.com</p>
         </div>
 
         <Image

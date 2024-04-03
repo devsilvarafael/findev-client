@@ -1,6 +1,5 @@
 import { UserProfileTypeCardProps } from "@/types/UserProfileTypeCard";
 import { Card } from "../ui/card";
-import { Badge } from "../ui/badge";
 
 export const UserProfileTypeCard = ({
   id,
