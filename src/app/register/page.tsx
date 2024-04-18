@@ -6,11 +6,23 @@ import Image from "next/image";
 import { useState } from "react";
 import { userTypeOptions } from "./userTypeOptions";
 
-export default function Register() {
-  const [selectedUserType, setSelectedUserType] = useState<string | null>(null);
+import { UserProfileTypeCardProps } from "@/types/UserProfileTypeCard";
 
-  const handleSelectCard = (id: string) => {
-    setSelectedUserType(id);
+import { useRouter } from "next/navigation";
+
+export default function Register() {
+  const router = useRouter();
+
+  const [selectedUserType, setSelectedUserType] = useState<{
+    type: string | null;
+    url: string | null;
+  }>({ type: null, url: null });
+
+  const handleSelectCard = ({ type, url }: { type: string; url: string }) => {
+    setSelectedUserType({
+      type,
+      url,
+    });
   };
 
   return (
@@ -37,18 +49,32 @@ export default function Register() {
                 key={userType.id}
                 id={userType.id}
                 title={userType.title}
-                selectedId={selectedUserType}
+                selectedId={selectedUserType.type}
+                selectedUrl={selectedUserType.url}
                 subtitle={userType.subtitle}
                 avatars={userType.avatars}
-                onSelectCard={() => handleSelectCard(userType.id)}
+                onSelectCard={() =>
+                  handleSelectCard({
+                    type: userType.id,
+                    url: userType.redirect,
+                  })
+                }
               />
             ))}
           </div>
 
-          <Button className="bg-main">Continuar</Button>
+          <Button
+            className="bg-main"
+            onClick={() =>
+              selectedUserType.url && router.push(selectedUserType.url)
+            }
+          >
+            Continuar
+          </Button>
 
           <p className="text-center">
-            Já possuí uma conta? <span>Faça login!</span>
+            Já possuí uma conta?{" "}
+            <span onClick={() => router.push("/login")}>Faça login!</span>
           </p>
         </div>
       </aside>

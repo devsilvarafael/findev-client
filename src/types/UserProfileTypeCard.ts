@@ -4,6 +4,7 @@ export interface UserProfileTypeCardProps {
   subtitle: string;
   avatars: Avatar[];
   selectedId?: string | null;
+  selectedUrl: string | null;
   onSelectCard: () => void;
 }
 

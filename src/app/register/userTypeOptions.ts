@@ -3,6 +3,7 @@ export const userTypeOptions = [
     id: "2",
     title: "Quero encontrar empregos",
     subtitle: "Sou um desenvolvedor em busca de emprego.",
+    redirect: "/register/developer",
     avatars: [
       {
         id: "1",
@@ -12,8 +13,9 @@ export const userTypeOptions = [
   },
   {
     id: "1",
-    title: "Quero contratar funcionários",
-    subtitle: "Estou em busca de desenvolvedores.",
+    title: "Quero contratar desenvolvedores",
+    subtitle: "Sou um recrutador.",
+    redirect: "/register/recruiter",
     avatars: [
       {
         id: "1",

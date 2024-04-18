@@ -7,6 +7,7 @@ export const UserProfileTypeCard = ({
   subtitle,
   avatars,
   selectedId,
+  selectedUrl,
   onSelectCard,
 }: UserProfileTypeCardProps) => {
   return (
@@ -14,7 +15,9 @@ export const UserProfileTypeCard = ({
       className={`flex justify-between items-center p-8 rounded-lg border-2 hover:border-main hover:cursor-pointer max-h-xs ${
         selectedId === id ? "border-main" : ""
       }`}
-      onClick={onSelectCard}
+      onClick={() => {
+        onSelectCard();
+      }}
     >
       <div className="flex items-center">
         <div className="flex space-x-2">
