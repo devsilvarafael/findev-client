@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useCurrentForm } from "@/contexts/CurrentFormContext";
 
 type Tab = {
   name: string;
@@ -15,6 +16,8 @@ interface TabsFormProps {
 
 export const TabsForm = ({ tabs, forms }: TabsFormProps) => {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
+
+  const { updateCurrentForm } = useCurrentForm();
 
   const handleChangeTab: any = (tab: Tab) => {
     setCurrentTab(tab);
@@ -31,14 +34,19 @@ export const TabsForm = ({ tabs, forms }: TabsFormProps) => {
           <TabsTrigger
             key={tab.id}
             value={tab.name}
-            onClick={() => handleChangeTab(tab)}
+            onClick={() => {
+              handleChangeTab(tab);
+              updateCurrentForm(tab.id);
+            }}
             className="px-4 py-2 w-full "
           >
             {tab.name}
           </TabsTrigger>
         ))}
       </TabsList>
-      <TabsContent value={currentTab.name}>{forms[currentTab.id]}</TabsContent>
+      <TabsContent value={currentTab.name} className="w-full">
+        {forms[currentTab.id]}
+      </TabsContent>
     </Tabs>
   );
 };
