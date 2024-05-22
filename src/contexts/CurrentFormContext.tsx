@@ -8,21 +8,19 @@ import {
 } from "react";
 
 interface CurrentFormContextProps {
-  currentFormId: number | null;
-  updateCurrentForm: Dispatch<SetStateAction<number | null>>;
+  currentFormId: number;
+  updateCurrentForm: Dispatch<SetStateAction<number>>;
 }
 
 export const CurrentFormContext = createContext<CurrentFormContextProps>({
-  currentFormId: null,
-  updateCurrentForm: (tab) => {},
+  currentFormId: 0,
+  updateCurrentForm: () => {},
 });
 
 export const CurrentFormProvider = ({ children }: { children: ReactNode }) => {
-  const [currentFormId, setCurrentFormId] = useState<number | null>(null);
+  const [currentFormId, setCurrentFormId] = useState<number>(0);
 
-  const updateCurrentForm: Dispatch<SetStateAction<number | null>> = (
-    formId
-  ) => {
+  const updateCurrentForm: Dispatch<SetStateAction<number>> = (formId) => {
     setCurrentFormId(formId);
   };
 

@@ -1,3 +1,5 @@
+import { technologyOptions } from "./technologyOptions";
+
 export const developerFields = {
   account: [
     {
@@ -42,8 +44,21 @@ export const developerFields = {
     {
       name: "skills",
       label: "Skills",
-      type: "text",
-      placeholder: "Digite suas skills",
+      type: "select",
+      placeholder: "Selecione suas skills",
+      items: technologyOptions,
+    },
+    {
+      name: "seniority",
+      label: "Senioridade",
+      type: "select",
+      placeholder: "Selecione sua senioridade",
+      items: [
+        { value: 0, label: "Junior" },
+        { value: 1, label: "Pleno" },
+        { value: 2, label: "Senior" },
+        { value: 3, label: "Especialista" },
+      ],
     },
   ],
 };

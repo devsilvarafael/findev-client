@@ -15,12 +15,12 @@ interface TabsFormProps {
 }
 
 export const TabsForm = ({ tabs, forms }: TabsFormProps) => {
-  const [currentTab, setCurrentTab] = useState(tabs[0]);
-
-  const { updateCurrentForm } = useCurrentForm();
+  const { currentFormId, updateCurrentForm } = useCurrentForm();
+  const [currentTab, setCurrentTab] = useState(tabs[currentFormId]);
 
   const handleChangeTab: any = (tab: Tab) => {
     setCurrentTab(tab);
+    updateCurrentForm(tab.id);
   };
 
   return (
