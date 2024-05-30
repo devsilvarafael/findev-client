@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCurrentForm } from "@/contexts/CurrentFormContext";
 
@@ -18,7 +18,11 @@ export const TabsForm = ({ tabs, forms }: TabsFormProps) => {
   const { currentFormId, updateCurrentForm } = useCurrentForm();
   const [currentTab, setCurrentTab] = useState(tabs[currentFormId]);
 
-  const handleChangeTab: any = (tab: Tab) => {
+  useEffect(() => {
+    setCurrentTab(tabs[currentFormId]);
+  }, [currentFormId, tabs]);
+
+  const handleChangeTab = (tab: Tab) => {
     setCurrentTab(tab);
     updateCurrentForm(tab.id);
   };
@@ -34,11 +38,8 @@ export const TabsForm = ({ tabs, forms }: TabsFormProps) => {
           <TabsTrigger
             key={tab.id}
             value={tab.name}
-            onClick={() => {
-              handleChangeTab(tab);
-              updateCurrentForm(tab.id);
-            }}
-            className="px-4 py-2 w-full "
+            onClick={() => handleChangeTab(tab)}
+            className="px-4 py-2 w-full"
           >
             {tab.name}
           </TabsTrigger>
