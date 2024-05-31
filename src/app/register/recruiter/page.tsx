@@ -8,22 +8,22 @@ import { CurrentFormProvider } from "@/contexts/CurrentFormContext";
 import api from "@/services/api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { set } from "react-hook-form";
+import { ICompanyProps } from "@/types/Company";
 
 const submitRecruiterData = async (data: any) => {
-  const router = useRouter();
-
   try {
     const formattedRecruiterJson = {
       ...data,
-      companyName: data.companyName,
-      industry: data.industry.value,
+      company: data.company.value,
     };
 
     const response = await api.post("/recruiters", formattedRecruiterJson);
 
     if (response.status === 201) {
       toast.success("Cadastro realizado com sucesso");
-      router.push("/");
+
       return;
     }
   } catch (error) {
@@ -32,23 +32,63 @@ const submitRecruiterData = async (data: any) => {
 };
 
 export default function Recruiter() {
+  const [availableCompanies, setAvailableCompanies] = useState([]);
+
+  const fetchCompanies = async (): Promise<ICompanyProps> => {
+    try {
+      const response = await api.get("/companies");
+
+      setAvailableCompanies(response.data.content);
+      return response.data;
+    } catch (error) {
+      toast.error("Erro ao buscar empresas");
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    fetchCompanies();
+  }, []);
+
+  console.log(availableCompanies);
+
+  const recruiterFieldsWithCompanies = {
+    account: recruiterFields.account,
+    company: [
+      {
+        name: "company",
+        placeholder: "Selecione sua empresa",
+        type: "select",
+        label: "Empresa",
+        required: true,
+        items: availableCompanies.map((company: ICompanyProps) => ({
+          value: company.companyId,
+          label: company.name,
+        })),
+      },
+    ],
+  };
+
   return (
     <CurrentFormProvider>
       <RegisterLayout>
         <TabsForm
           forms={[
             <RegisterForm
-              formFields={recruiterFields.account}
+              formFields={recruiterFieldsWithCompanies.account}
               onSubmit={submitRecruiterData}
             />,
             <RegisterForm
-              formFields={recruiterFields.company}
+              formFields={recruiterFieldsWithCompanies.company}
               onSubmit={submitRecruiterData}
             />,
           ]}
           tabs={[
             { name: "Conta", id: 0 },
-            { name: "Empresa", id: 1 },
+            {
+              name: "Empresa",
+              id: 1,
+            },
           ]}
         />
       </RegisterLayout>
