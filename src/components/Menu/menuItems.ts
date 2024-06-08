@@ -1,13 +1,8 @@
 export const menuItems = [
   {
     label: "Dashboard",
-    path: "/dashboard",
-    icon: "/icons/dashboard.svg",
-  },
-  {
-    label: "Jobs",
     path: "/jobs",
-    icon: "/icons/jobs.svg",
+    icon: "/icons/dashboard.svg",
   },
   {
     label: "Profile",
