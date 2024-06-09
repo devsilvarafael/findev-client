@@ -148,7 +148,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Nenhum resultado encontrado.
                 </TableCell>
               </TableRow>
             )}
