@@ -42,11 +42,11 @@ export const Menu = ({ items }: IMenuProps) => {
         {/* Additional Links */}
         <div className="mt-auto flex flex-col space-y-2 w-full">
           <a
-            href="/settings"
+            href="/admin"
             className="flex items-center p-2 text-sm font-medium text-gray-200 hover:bg-gray-700 rounded-lg"
           >
             <SettingsIcon className="w-5 h-5" />
-            <span className="ml-3">Settings</span>
+            <span className="ml-3">Configurações</span>
           </a>
           <a
             href="/logout"
@@ -63,11 +63,9 @@ export const Menu = ({ items }: IMenuProps) => {
 
 const getMenuIcon = (label: string) => {
   switch (label.toLowerCase()) {
-    case "home":
-      return <HomeIcon className="w-5 h-5" />;
-    case "jobs":
+    case "vagas":
       return <BriefcaseIcon className="w-5 h-5" />;
-    case "profile":
+    case "perfil":
       return <UserIcon className="w-5 h-5" />;
     default:
       return <HomeIcon className="w-5 h-5" />;

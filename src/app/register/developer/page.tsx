@@ -9,32 +9,31 @@ import api from "@/services/api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-const submitDeveloperData = async (data: any) => {
+export default function Developer() {
   const router = useRouter();
 
-  try {
-    const formattedDeveloperJson = {
-      ...data,
-      seniority: data.seniority.value,
-      skills: data.skills.map((skill: { value: string; label: string }) => ({
-        name: skill.value,
-        experienceYears: 0,
-      })),
-    };
+  const submitDeveloperData = async (data: any) => {
+    try {
+      const formattedDeveloperJson = {
+        ...data,
+        seniority: data.seniority.value,
+        skills: data.skills.map((skill: { value: string; label: string }) => ({
+          name: skill.value,
+          experienceYears: 0,
+        })),
+      };
 
-    const response = await api.post("/developers", formattedDeveloperJson);
+      const response = await api.post("/developers", formattedDeveloperJson);
 
-    if (response.status === 201) {
-      toast.success("Cadastro realizado com sucesso");
-      router.push("/");
-      return;
+      if (response.status === 201) {
+        toast.success("Cadastro realizado com sucesso");
+        router.push("/");
+      }
+    } catch (error) {
+      toast.error("Erro ao realizar cadastro");
     }
-  } catch (error) {
-    toast.error("Erro ao realizar cadastro");
-  }
-};
+  };
 
-export default function Developer() {
   return (
     <CurrentFormProvider>
       <RegisterLayout>

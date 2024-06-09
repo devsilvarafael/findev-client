@@ -1,11 +1,11 @@
 export const menuItems = [
   {
-    label: "Dashboard",
+    label: "Vagas",
     path: "/jobs",
     icon: "/icons/dashboard.svg",
   },
   {
-    label: "Profile",
+    label: "Perfil",
     path: "/profile",
     icon: "/icons/profile.svg",
   },
