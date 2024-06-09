@@ -9,6 +9,7 @@ import {
   SettingsIcon,
   UserIcon,
 } from "lucide-react";
+import Link from "next/link";
 
 export const Menu = ({ items }: IMenuProps) => {
   return (
@@ -28,33 +29,33 @@ export const Menu = ({ items }: IMenuProps) => {
         <ul className="flex flex-col space-y-4 w-full">
           {items.map((item, index) => (
             <li key={index} className="w-full">
-              <a
+              <Link
                 href={item.path}
                 className="flex items-center p-2 text-sm font-medium text-gray-200 hover:bg-gray-700 rounded-lg"
               >
                 {getMenuIcon(item.label)}
                 <span className="ml-3">{item.label}</span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
 
         {/* Additional Links */}
         <div className="mt-auto flex flex-col space-y-2 w-full">
-          <a
+          <Link
             href="/admin"
             className="flex items-center p-2 text-sm font-medium text-gray-200 hover:bg-gray-700 rounded-lg"
           >
             <SettingsIcon className="w-5 h-5" />
             <span className="ml-3">Configurações</span>
-          </a>
-          <a
+          </Link>
+          <Link
             href="/"
             className="flex items-center p-2 text-sm font-medium text-gray-200 hover:bg-gray-700 rounded-lg"
           >
             <LogOutIcon className="w-5 h-5" />
             <span className="ml-3">Sair</span>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
