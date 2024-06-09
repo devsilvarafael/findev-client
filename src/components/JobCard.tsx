@@ -1,16 +1,8 @@
-import { BookmarkIcon, MapPin } from "lucide-react";
 import { FC } from "react";
+import { BookmarkIcon, MapPin } from "lucide-react";
+import { Job } from "@/types/Job";
 
-interface JobCardProps {
-  title: string;
-  type: string;
-  salary: string;
-  company: string;
-  location: string;
-  companyLogo: string;
-}
-
-export const JobCard: FC<JobCardProps> = ({
+export const JobCard: FC<Job> = ({
   title,
   type,
   salary,
@@ -33,12 +25,12 @@ export const JobCard: FC<JobCardProps> = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <img
-              src={"/findev-medium-logo.svg"}
-              alt={`${company} logo`}
+              src={companyLogo}
+              alt={`${company.name} logo`}
               className="w-10 h-10 rounded-sm p-1 mr-2 bg-red-100"
             />
             <div>
-              <p className="text-sm font-medium">{company}</p>
+              <p className="text-sm font-medium">{company.name}</p>
               <div className="flex items-center space-x-1">
                 <MapPin width={18} height={18} className="text-gray-500 " />
                 <p className="text-sm text-gray-500 flex items-center">

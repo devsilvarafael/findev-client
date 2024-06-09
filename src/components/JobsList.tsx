@@ -1,21 +1,32 @@
-import { FC } from "react";
+"use client";
+
+import { FC, useEffect, useState } from "react";
 import { JobCard } from "./JobCard";
+import { Job } from "@/types/Job";
 
-interface Job {
-  id: number;
-  title: string;
-  type: string;
-  salary: string;
-  company: string;
-  location: string;
-  companyLogo: string;
-}
+export const JobsList: FC = () => {
+  const [jobs, setJobs] = useState<Job[]>([]);
 
-interface JobsListProps {
-  jobs: Job[];
-}
+  async function fetchJobs() {
+    try {
+      const response = await fetch("http://localhost:8080/api/jobs");
 
-export const JobsList: FC<JobsListProps> = ({ jobs }) => {
+      if (!response.ok) {
+        throw new Error("Erro ao buscar vagas");
+      }
+
+      const data = await response.json();
+
+      setJobs(data.content);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
       {jobs.map((job) => (
