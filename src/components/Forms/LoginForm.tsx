@@ -31,8 +31,8 @@ export const LoginForm = ({ onSubmit, onChange, user }: LoginFormProps) => {
         </Label>
       </div>
 
-      <Link href={"/jobs"}>
-        <Button type="submit" className="bg-main">
+      <Link href={"/jobs"} className="w-full">
+        <Button type="submit" className="bg-main w-full">
           Login
         </Button>
       </Link>

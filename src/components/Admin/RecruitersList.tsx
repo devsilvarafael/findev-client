@@ -86,7 +86,7 @@ export const RecruitersList: FC<RecruitersListProps> = ({
     {
       accessorKey: "company",
       header: "Empresa",
-      cell: ({ row }: any) => row.original.company.name,
+      cell: ({ row }: any) => row.original.company?.name || "N/A",
     },
     {
       accessorKey: "actions",

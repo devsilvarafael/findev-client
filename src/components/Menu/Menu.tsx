@@ -49,11 +49,11 @@ export const Menu = ({ items }: IMenuProps) => {
             <span className="ml-3">Configurações</span>
           </a>
           <a
-            href="/logout"
+            href="/"
             className="flex items-center p-2 text-sm font-medium text-gray-200 hover:bg-gray-700 rounded-lg"
           >
             <LogOutIcon className="w-5 h-5" />
-            <span className="ml-3">Logout</span>
+            <span className="ml-3">Sair</span>
           </a>
         </div>
       </div>

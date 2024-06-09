@@ -46,8 +46,14 @@ export const CompaniesList: FC<CompaniesListProps> = ({
   };
 
   const handleSaveCompany = async (data: any) => {
+    const jsonAPI = {
+      name: data.name,
+      email: data.email,
+      address: data.address,
+      website: data.website,
+    };
     try {
-      await api.put(`/companies/${data.id}`, data);
+      await api.put(`/companies/${data.companyId}`, jsonAPI);
       await refresh();
       closeDialog();
     } catch (error) {
@@ -58,7 +64,7 @@ export const CompaniesList: FC<CompaniesListProps> = ({
   const columns = [
     {
       accessorKey: "name",
-      header: "Name",
+      header: "Fantasia/Razao Social",
     },
     {
       accessorKey: "email",
@@ -66,11 +72,15 @@ export const CompaniesList: FC<CompaniesListProps> = ({
     },
     {
       accessorKey: "address",
-      header: "Address",
+      header: "Endereco",
+    },
+    {
+      accessorKey: "website",
+      header: "Site",
     },
     {
       accessorKey: "actions",
-      header: "Actions",
+      header: "Ações",
       cell: ({ row }: any) => (
         <div className="flex gap-2">
           <Button
@@ -83,7 +93,7 @@ export const CompaniesList: FC<CompaniesListProps> = ({
           <Button
             className="text-red-800 bg-red-100 hover:text-red-300"
             size="icon"
-            onClick={() => handleDelete(row.original.id)}
+            onClick={() => handleDelete(row.original.companyId)}
           >
             <TrashIcon className="w-4 h-4" />
           </Button>

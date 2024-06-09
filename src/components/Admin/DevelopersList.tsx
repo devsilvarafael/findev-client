@@ -108,7 +108,7 @@ export const DevelopersList: FC<DevelopersListProps> = ({
     },
     {
       accessorKey: "skills",
-      header: "Skills",
+      header: "Tecnologias",
       cell: ({ row }: any) => (
         <div className="flex flex-wrap gap-2">
           {row.original.skills.map((skill: Skill) => (
