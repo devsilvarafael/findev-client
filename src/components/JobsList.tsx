@@ -1,37 +1,55 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { useState } from "react";
+import { FC } from "react";
 import { JobCard } from "./JobCard";
 import { Job } from "@/types/Job";
 
-export const JobsList: FC = () => {
-  const [jobs, setJobs] = useState<Job[]>([]);
+import api from "@/services/api";
+import { JobEditDialog } from "./JobEditingDialog";
 
-  async function fetchJobs() {
+interface JobsListProps {
+  jobs: Job[];
+  fetchJobs: () => void;
+}
+
+export const JobsList: FC<JobsListProps> = ({ jobs, fetchJobs }) => {
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+
+  const handleDelete = async (id: number) => {
     try {
-      const response = await fetch("http://localhost:8080/api/jobs");
-
-      if (!response.ok) {
-        throw new Error("Erro ao buscar vagas");
-      }
-
-      const data = await response.json();
-
-      setJobs(data.content);
+      await api.delete(`/jobs/${id}`);
+      fetchJobs(); // Refresh the job list after deletion
     } catch (error) {
-      console.error(error);
+      console.error("Error deleting job:", error);
     }
-  }
+  };
 
-  useEffect(() => {
-    fetchJobs();
-  }, []);
+  const handleEdit = (job: Job) => {
+    setSelectedJob(job);
+  };
+
+  const closeEditDialog = () => {
+    setSelectedJob(null);
+  };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-      {jobs.map((job) => (
-        <JobCard key={job.id} {...job} />
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+        {jobs.map((job) => (
+          <JobCard
+            key={job.id}
+            {...job}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+          />
+        ))}
+      </div>
+      <JobEditDialog
+        job={selectedJob}
+        fetchJobs={fetchJobs}
+        onClose={closeEditDialog}
+      />
+    </>
   );
 };
