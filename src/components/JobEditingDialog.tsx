@@ -15,9 +15,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import api from "@/services/api";
 import { Job } from "@/types/Job";
+import { toast } from "sonner";
 
 interface JobEditDialogProps {
-  job: Job | null;
+  job: Job;
   fetchJobs: () => void;
   onClose: () => void;
 }
@@ -27,7 +28,7 @@ export const JobEditDialog: FC<JobEditDialogProps> = ({
   fetchJobs,
   onClose,
 }) => {
-  const [formData, setFormData] = useState<Job | null>(job);
+  const [formData, setFormData] = useState<Job>(job);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (formData) {
@@ -40,15 +41,27 @@ export const JobEditDialog: FC<JobEditDialogProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const jsonAPI = {
+      title: formData.title,
+      description: formData.description,
+      salary: formData.salary,
+      expirationDate: formData.expirationDate,
+      company: formData.company.id,
+      recruiter: formData.recruiter.id,
+    };
 
     try {
       if (formData) {
-        await api.put(`/jobs/${formData.id}`, formData);
+        await api.put(`/jobs/${formData.id}`, jsonAPI);
         fetchJobs();
-        onClose(); // Close the dialog after successful update
+
+        toast.success("Vaga atualizada com sucesso!");
       }
     } catch (error) {
       console.error("Error updating job:", error);
+      toast.error("Erro ao atualizar a vaga");
+    } finally {
+      onClose();
     }
   };
 
@@ -69,7 +82,7 @@ export const JobEditDialog: FC<JobEditDialogProps> = ({
             <Input
               id="title"
               name="title"
-              value={formData?.title || ""}
+              value={formData.title}
               onChange={handleChange}
               className="col-span-3"
               required
@@ -82,7 +95,7 @@ export const JobEditDialog: FC<JobEditDialogProps> = ({
             <Input
               id="description"
               name="description"
-              value={""}
+              value={formData.description}
               onChange={handleChange}
               className="col-span-3"
               required
@@ -96,7 +109,7 @@ export const JobEditDialog: FC<JobEditDialogProps> = ({
               id="salary"
               name="salary"
               type="number"
-              value={formData?.salary || ""}
+              value={formData.salary}
               onChange={handleChange}
               className="col-span-3"
               required
@@ -110,7 +123,9 @@ export const JobEditDialog: FC<JobEditDialogProps> = ({
               id="expirationDate"
               name="expirationDate"
               type="date"
-              value={""}
+              value={
+                new Date(formData.expirationDate).toISOString().split("T")[0]
+              }
               onChange={handleChange}
               className="col-span-3"
               required
@@ -123,7 +138,7 @@ export const JobEditDialog: FC<JobEditDialogProps> = ({
             <Input
               id="company"
               name="company"
-              value={""}
+              value={formData.company.id}
               onChange={handleChange}
               className="col-span-3"
               required
@@ -136,7 +151,7 @@ export const JobEditDialog: FC<JobEditDialogProps> = ({
             <Input
               id="recruiter"
               name="recruiter"
-              value={""}
+              value={formData.recruiter.id}
               onChange={handleChange}
               className="col-span-3"
               required

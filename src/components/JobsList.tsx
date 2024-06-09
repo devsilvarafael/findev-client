@@ -7,6 +7,7 @@ import { Job } from "@/types/Job";
 
 import api from "@/services/api";
 import { JobEditDialog } from "./JobEditingDialog";
+import { toast } from "sonner";
 
 interface JobsListProps {
   jobs: Job[];
@@ -19,7 +20,8 @@ export const JobsList: FC<JobsListProps> = ({ jobs, fetchJobs }) => {
   const handleDelete = async (id: number) => {
     try {
       await api.delete(`/jobs/${id}`);
-      fetchJobs(); // Refresh the job list after deletion
+      fetchJobs();
+      toast.success("Vaga deletada com sucesso!");
     } catch (error) {
       console.error("Error deleting job:", error);
     }
@@ -45,11 +47,13 @@ export const JobsList: FC<JobsListProps> = ({ jobs, fetchJobs }) => {
           />
         ))}
       </div>
-      <JobEditDialog
-        job={selectedJob}
-        fetchJobs={fetchJobs}
-        onClose={closeEditDialog}
-      />
+      {selectedJob && (
+        <JobEditDialog
+          job={selectedJob}
+          fetchJobs={fetchJobs}
+          onClose={closeEditDialog}
+        />
+      )}
     </>
   );
 };

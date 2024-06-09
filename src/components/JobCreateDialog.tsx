@@ -44,7 +44,6 @@ export const JobCreateDialog: FC<JobCreateDialogProps> = ({ fetchJobs }) => {
       [e.target.name]: e.target.value,
     });
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -53,6 +52,16 @@ export const JobCreateDialog: FC<JobCreateDialogProps> = ({ fetchJobs }) => {
       await api.post("/jobs", formData);
       fetchJobs();
       closeDialog();
+      setFormData({
+        title: "",
+        description: "",
+        status: 1,
+        salary: "",
+        expirationDate: "",
+        company: "52571c2a-5705-406f-9677-aab488381dfd",
+        recruiter: "000b2269-a788-4d5a-95f3-003611129230",
+        benefits: [],
+      });
     } catch (error) {
       console.error("Error creating job:", error);
     } finally {
