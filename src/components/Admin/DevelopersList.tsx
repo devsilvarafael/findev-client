@@ -11,9 +11,13 @@ import api from "@/services/api";
 
 interface DevelopersListProps {
   developers: Developer[];
+  refresh: () => Promise<void>;
 }
 
-export const DevelopersList: FC<DevelopersListProps> = ({ developers }) => {
+export const DevelopersList: FC<DevelopersListProps> = ({
+  developers,
+  refresh,
+}) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedDeveloper, setSelectedDeveloper] = useState<Developer | null>(
     null
@@ -59,6 +63,7 @@ export const DevelopersList: FC<DevelopersListProps> = ({ developers }) => {
 
     try {
       await api.put(`/developers/${data.developerId}`, jsonAPI);
+      await refresh();
     } catch (error) {
       console.error("Error saving developer data:", error);
     }
@@ -67,6 +72,7 @@ export const DevelopersList: FC<DevelopersListProps> = ({ developers }) => {
   const handleDeleteDeveloper = async (developerId: number) => {
     try {
       await api.delete(`/developers/${developerId}`);
+      await refresh();
     } catch (error) {
       console.error("Error deleting developer:", error);
     }
@@ -152,8 +158,8 @@ export const DevelopersList: FC<DevelopersListProps> = ({ developers }) => {
           formTitle="Edit Developer"
           initialData={selectedDeveloper}
           fields={[
-            { name: "firstName", label: "First Name", type: "text" },
-            { name: "lastName", label: "Last Name", type: "text" },
+            { name: "firstName", label: "Nome", type: "text" },
+            { name: "lastName", label: "Sobrenome", type: "text" },
             { name: "email", label: "Email", type: "email" },
           ]}
           onSave={handleSaveDeveloper}

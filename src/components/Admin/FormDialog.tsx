@@ -53,6 +53,8 @@ export const FormDialog: FC<FormDialogProps> = ({
     onClose();
   };
 
+  console.log(formData);
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">

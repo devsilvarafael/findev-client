@@ -46,19 +46,28 @@ const AdminPage = (): JSX.Element => {
       <div className="p-4">
         <h1 className="text-2xl font-bold mb-4">Administração</h1>
         <Tabs defaultValue="developers">
-          <TabsList className="border-2 border-blue-600 ">
+          <TabsList className="bg-gray-600 text-white ">
             <TabsTrigger value="developers">Desenvolvedores</TabsTrigger>
             <TabsTrigger value="recruiters">Recrutadores</TabsTrigger>
             <TabsTrigger value="companies">Empresas</TabsTrigger>
           </TabsList>
           <TabsContent value="developers">
-            <DevelopersList developers={developers} />
+            <DevelopersList
+              developers={developers}
+              refresh={() => fetchDevelopers()}
+            />
           </TabsContent>
           <TabsContent value="recruiters">
-            <RecruitersList recruiters={recruiters} />
+            <RecruitersList
+              recruiters={recruiters}
+              refresh={() => fetchRecruiters()}
+            />
           </TabsContent>
           <TabsContent value="companies">
-            <CompaniesList companies={companies} />
+            <CompaniesList
+              companies={companies}
+              refresh={() => fetchCompanies()}
+            />
           </TabsContent>
         </Tabs>
       </div>
