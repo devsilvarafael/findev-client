@@ -21,8 +21,8 @@ export const Menu = ({ items }: IMenuProps) => {
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <p className="text-lg font-semibold">Rafael Silva</p>
-          <p className="text-sm text-gray-400">Front-end Developer</p>
+          <p className="text-lg font-medium">Recrutador</p>
+          <p className="text-sm text-gray-400"></p>
         </div>
 
         {/* Menu Items */}
