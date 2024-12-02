@@ -23,6 +23,7 @@ export const JobCard: FC<JobCardProps> = ({
   onDelete,
   onEdit,
 }) => {
+  console.log(company)
   return (
     <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200 flex flex-col justify-between">
       <div>
@@ -39,7 +40,7 @@ export const JobCard: FC<JobCardProps> = ({
           <div className="flex items-center">
             <img
               src={companyLogo}
-              alt={`${company.name} logo`}
+              alt={` logo`}
               className="w-10 h-10 rounded-sm p-1 mr-2 bg-red-100"
             />
             <div>
@@ -47,7 +48,7 @@ export const JobCard: FC<JobCardProps> = ({
               <div className="flex items-center space-x-1">
                 <MapPin width={18} height={18} className="text-gray-500 " />
                 <p className="text-sm text-gray-500 flex items-center">
-                  {location}
+                  {location} {company.address}
                 </p>
               </div>
             </div>

@@ -1,10 +1,16 @@
 "use client";
 import { LoginForm } from "@/components/Forms/LoginForm";
+import api from "@/services/api";
+import { AxiosError } from "axios";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { toast } from "sonner";
 
 export default function Login() {
+  const router = useRouter()
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -17,8 +23,33 @@ export default function Login() {
     }));
   };
 
-  const handleSubmitForm = (e: FormEvent) => {
+  const handleSubmitForm = async (e: FormEvent) => {
     e.preventDefault();
+
+    try {
+      const response = await api.post("/auth", {
+        "email": user.email,
+        "password": user.password
+      })
+
+      if (response.status === 200) {
+        console.log(response.data)
+
+        localStorage.setItem("@User", JSON.stringify({ ...response.data }))
+
+        if (response.data.role === "DEVELOPER") {
+          router.push("/jobs")
+        }
+
+        if (response.data.role === "RECRUITER") {
+          router.push("/jobs/announces")
+        }
+      }
+
+      return response.data
+    } catch ({ response: errorResponse }: any) {
+      toast.error(errorResponse.data.message)
+    }
   };
 
   return (

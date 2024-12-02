@@ -11,37 +11,37 @@ import { Button } from "@/components/ui/button";
 import { Job } from "@/types/Job";
 
 export default function Page({ params }: any): JSX.Element {
-  const [jobs, setJobs] = useState<Job[]>([]);
+    const [jobs, setJobs] = useState<Job[]>([]);
 
-  const fetchJobs = async () => {
-    try {
-      const response = await fetch("http://localhost:8080/api/jobs");
+    const fetchJobs = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/api/jobs");
 
-      if (!response.ok) {
-        throw new Error("Erro ao buscar vagas");
-      }
+            if (!response.ok) {
+                throw new Error("Erro ao buscar vagas");
+            }
 
-      const data = await response.json();
-      setJobs(data.content);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+            const data = await response.json();
+            setJobs(data.content);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-  useEffect(() => {
-    fetchJobs();
-  }, []);
+    useEffect(() => {
+        fetchJobs();
+    }, []);
 
-  return (
-    <DefaultLayout leftSideBar={<Menu items={menuItems} />}>
-      <div className="p-4">
-        <div className="flex justify-between">
-          <h1 className="text-2xl font-bold mb-4">Meus anúncios</h1>
-          <JobCreateDialog fetchJobs={fetchJobs} />
-        </div>
+    return (
+        <DefaultLayout leftSideBar={<Menu items={menuItems} />}>
+            <div className="p-4">
+                <div className="flex justify-between">
+                    <h1 className="text-2xl font-bold mb-4">Meus anúncios</h1>
+                    <JobCreateDialog fetchJobs={fetchJobs} />
+                </div>
 
-        <JobsList jobs={jobs} fetchJobs={fetchJobs} />
-      </div>
-    </DefaultLayout>
-  );
+                Lista de vagas para meu usuário
+            </div>
+        </DefaultLayout>
+    );
 }

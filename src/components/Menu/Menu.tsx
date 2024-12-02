@@ -12,20 +12,20 @@ import {
 import Link from "next/link";
 
 export const Menu = ({ items }: IMenuProps) => {
+  const userData = JSON.parse(localStorage.getItem("@User") || "")
+
   return (
     <div className=" flex flex-col px-4 h-screen bg-gray-900 text-white py-6">
       <div className="h-full flex flex-col items-center space-y-12">
-        {/* User Profile */}
         <div className="flex flex-col items-center space-y-4 w-full">
           <Avatar className="w-20 h-20">
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <p className="text-lg font-medium">Recrutador</p>
-          <p className="text-sm text-gray-400"></p>
+          <p className="text-lg font-medium">{userData.role}</p>
+          <p className="text-sm text-gray-400">{userData.email}</p>
         </div>
 
-        {/* Menu Items */}
         <ul className="flex flex-col space-y-4 w-full">
           {items.map((item, index) => (
             <li key={index} className="w-full">
@@ -40,7 +40,6 @@ export const Menu = ({ items }: IMenuProps) => {
           ))}
         </ul>
 
-        {/* Additional Links */}
         <div className="mt-auto flex flex-col space-y-2 w-full">
           <Link
             href="/admin"

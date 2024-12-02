@@ -44,6 +44,7 @@ export const JobsList: FC<JobsListProps> = ({ jobs, fetchJobs }) => {
             {...job}
             onDelete={handleDelete}
             onEdit={handleEdit}
+            company={job.company}
           />
         ))}
       </div>

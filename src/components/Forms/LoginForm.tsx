@@ -5,15 +5,18 @@ import { Label } from "@/components/ui/label";
 
 import { LoginFormProps } from "@/types/LoginForm";
 import Link from "next/link";
+import api from "@/services/api";
+import { redirect } from "next/navigation";
+import { useRouter } from "next/router";
 
 export const LoginForm = ({ onSubmit, onChange, user }: LoginFormProps) => {
   return (
     <form className="flex flex-col gap-2 w-2/5" onSubmit={onSubmit}>
       <Label htmlFor="email">Entre com seu e-mail</Label>
-      <Input value={user.email} onChange={onChange} />
+      <Input value={user.email} onChange={onChange} name="email" />
 
       <Label htmlFor="password">Entre com sua senha</Label>
-      <Input value={user.password} onChange={onChange} />
+      <Input value={user.password} onChange={onChange} name="password" type="password" />
 
       <div className="flex justify-between my-4">
         <div className="flex items-center space-x-2">
@@ -31,11 +34,9 @@ export const LoginForm = ({ onSubmit, onChange, user }: LoginFormProps) => {
         </Label>
       </div>
 
-      <Link href={"/jobs"} className="w-full">
-        <Button type="submit" className="bg-main w-full">
-          Login
-        </Button>
-      </Link>
+      <Button type="submit" className="bg-main w-full">
+        Login
+      </Button>
 
       <div className="text-center">
         <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
