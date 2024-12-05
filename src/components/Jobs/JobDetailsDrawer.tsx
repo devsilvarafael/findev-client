@@ -15,6 +15,7 @@ import api from "@/services/api";
 import { useUserContext } from "@/contexts/UserContext";
 import { toast } from "sonner";
 import { getModalityIcon } from "./utils/modalityIcon";
+import { useRouter } from "next/navigation";
 
 interface JobDetailsDrawerProps {
     job: Job;
@@ -24,6 +25,7 @@ interface JobDetailsDrawerProps {
 
 const JobDetailsDrawer: FC<JobDetailsDrawerProps> = ({ job, isOpen, onClose }) => {
     const { simpleUserJson } = useUserContext();
+    const router = useRouter();
 
     const applyToJob = async () => {
         try {
@@ -35,6 +37,8 @@ const JobDetailsDrawer: FC<JobDetailsDrawerProps> = ({ job, isOpen, onClose }) =
                 position: "top-center",
             });
 
+            onClose();
+
             return response.data;
         } catch (err: any) {
             toast.error(err.response.data, {
@@ -43,21 +47,31 @@ const JobDetailsDrawer: FC<JobDetailsDrawerProps> = ({ job, isOpen, onClose }) =
         }
     };
 
+    const redirectRecruiter = () => {
+        router.push("/jobs/candidates")
+    }
+
     return (
         <Drawer open={isOpen} onOpenChange={onClose} direction="right">
             <DrawerContent className="flex flex-col justify-between h-screen top-0 right-0 left-auto mt-0 w-full sm:w-[500px] rounded-none p-4">
                 <div className="h-full">
                     <DrawerHeader className="flex justify-between items-center">
-                        <div>
-                            <DrawerTitle className="text-xl font-semibold">{job.title}</DrawerTitle>
-                            <DrawerDescription className="text-sm text-muted-foreground">{job.description}</DrawerDescription>
-                        </div>
+                        <DrawerTitle className="text-xl font-semibold">{job.title}</DrawerTitle>
+
                         <DrawerClose asChild>
                             <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close">
                                 ✕
                             </Button>
                         </DrawerClose>
                     </DrawerHeader>
+
+                    <DrawerDescription>Lorem ipsum dolor,
+                        sit amet consectetur adipisicing elit. Quod iusto,
+                        perferendis itaque porro hic nostrum possimus. Ratione
+                        reiciendis placeat ad quod, iure veniam possimus fugit
+                        consequuntur quam voluptates minus quibusdam?
+                    </DrawerDescription>
+
                     <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="flex items-center space-x-2">
                             <FaBuilding className="text-gray-500" />
@@ -102,8 +116,12 @@ const JobDetailsDrawer: FC<JobDetailsDrawerProps> = ({ job, isOpen, onClose }) =
                     </div>
                 </div>
                 <div className="mt-6">
-                    <Button className="w-full" onClick={() => applyToJob()}>
-                        Candidatar agora
+                    <Button className="w-full" onClick={() => {
+                        if (simpleUserJson.role === "RECRUITER") return redirectRecruiter();
+                        if (simpleUserJson.role === "DEVELOPER") return applyToJob();
+                    }}>
+                        {simpleUserJson.role === "RECRUITER" && `Visualizar ${job.candidatures.length} candidato(s)`}
+                        {simpleUserJson.role === "DEVELOPER" && `Candidatar agora`}
                     </Button>
                 </div>
             </DrawerContent>

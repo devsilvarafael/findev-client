@@ -22,7 +22,7 @@ const JobCardItem: FC<JobCardItemProps> = ({ job }) => {
 
     return (
         <Fragment>
-            <Card className="hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+            <Card className="hover:shadow-lg transition-shadow duration-300">
                 <CardHeader className="flex items-center space-x-4 flex-row pt-2">
                     <Avatar >
                         <AvatarImage src={job.company.companyLogo} alt={`${job.company.name} Logo`} className="w-full h-full object-fill" />

@@ -22,7 +22,10 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
         queryKey: ["userInfo"],
         queryFn: async () => {
             if (!simpleUserJson) return null;
-            const response = await api.get(`/developers/${simpleUserJson.id}`);
+
+            const userRole = simpleUserJson.role === "RECRUITER" ? "/recruiters" : "/developers";
+
+            const response = await api.get(`${userRole}/${simpleUserJson.id}`);
             localStorage.setItem("@UserDetails", JSON.stringify(response.data));
             return response.data;
         },
