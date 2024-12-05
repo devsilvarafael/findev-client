@@ -27,15 +27,19 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await api.post("/auth", {
+      const response = await api.post("/auth/login", {
         "email": user.email,
         "password": user.password
       })
 
       if (response.status === 200) {
-        console.log(response.data)
+        localStorage.setItem("@User", (JSON.stringify({
+          id: response.data.id,
+          role: response.data.role,
+          email: response.data.name
+        })))
 
-        localStorage.setItem("@User", JSON.stringify({ ...response.data }))
+        localStorage.setItem("authToken", JSON.stringify(response.data.token))
 
         if (response.data.role === "DEVELOPER") {
           router.push("/jobs")
@@ -47,8 +51,8 @@ export default function Login() {
       }
 
       return response.data
-    } catch ({ response: errorResponse }: any) {
-      toast.error(errorResponse.data.message)
+    } catch (err: any) {
+      toast.error(err)
     }
   };
 

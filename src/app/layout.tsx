@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
+import { UserContextProvider } from "@/contexts/UserContext";
+import { ReactQueryProvider } from "@/config/ReactQueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -23,7 +25,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} ${poppins.className}`}>
         <Toaster richColors position="top-right" />
-        {children}
+        <ReactQueryProvider>
+          <UserContextProvider>{children}</UserContextProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

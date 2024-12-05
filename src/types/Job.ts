@@ -1,26 +1,39 @@
+import { Developer } from "./Developer";
+
 export interface Job {
   id: number;
   title: string;
   description: string;
   status: number;
-  salary: string;
+  salary: number;
   expirationDate: string;
+  contractType: string;
+  minWeekHours: number;
+  maxWeekHours: number;
+  workModality: string;
+  workLocation: string;
   company: {
-    id: string;
+    companyId: string;
     name: string;
     email: string;
     address: string;
     website: string;
+    isActive: boolean;
+    recruiters: {}[];
   };
   recruiter: {
-    id: string;
+    recruiterId: string;
     firstName: string;
     lastName: string;
     email: string;
     phone: string;
+    companyId: string;
   };
+  candidatures: Developer[];
+  requirements: {
+    name: string;
+    experienceYears: number;
+  }[]
   benefits: string[];
-  type?: string;
-  location?: string;
   companyLogo?: string;
 }

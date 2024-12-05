@@ -5,9 +5,7 @@ import { Label } from "@/components/ui/label";
 
 import { LoginFormProps } from "@/types/LoginForm";
 import Link from "next/link";
-import api from "@/services/api";
-import { redirect } from "next/navigation";
-import { useRouter } from "next/router";
+
 
 export const LoginForm = ({ onSubmit, onChange, user }: LoginFormProps) => {
   return (

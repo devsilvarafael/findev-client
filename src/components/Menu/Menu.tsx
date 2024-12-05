@@ -12,7 +12,7 @@ import {
 import Link from "next/link";
 
 export const Menu = ({ items }: IMenuProps) => {
-  const userData = JSON.parse(localStorage.getItem("@User") || "")
+  const userData = JSON.parse(localStorage.getItem("@UserDetails") || "")
 
   return (
     <div className=" flex flex-col px-4 h-screen bg-gray-900 text-white py-6">
@@ -22,7 +22,7 @@ export const Menu = ({ items }: IMenuProps) => {
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <p className="text-lg font-medium">{userData.role}</p>
+          <p className="text-lg font-medium">{userData.firstName} {userData.lastName}</p>
           <p className="text-sm text-gray-400">{userData.email}</p>
         </div>
 
