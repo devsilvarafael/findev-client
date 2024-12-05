@@ -1,13 +1,15 @@
 "use client";
 
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/services/api";
 
-const UserContext = createContext("");
+type SimpleUserType = { id: string; role: string; email: string }
+
+const UserContext = createContext<any>(null);
 
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
-    const [simpleUserJson, setSimpleUserJson] = useState<{ id: string; role: string; email: string } | null>(null);
+    const [simpleUserJson, setSimpleUserJson] = useState<SimpleUserType | null>(null);
 
     useEffect(() => {
         const storedUser = localStorage.getItem("@User");
@@ -28,8 +30,12 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return (
-        <UserContext.Provider value={""}>
+        <UserContext.Provider value={{ simpleUserJson, userData }}>
             {children}
         </UserContext.Provider>
     );
 };
+
+export const useUserContext = () => {
+    return useContext(UserContext);
+}
