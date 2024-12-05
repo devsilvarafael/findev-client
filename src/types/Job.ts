@@ -1,3 +1,4 @@
+import { ICompanyProps } from "./Company";
 import { Developer } from "./Developer";
 
 export interface Job {
@@ -12,15 +13,7 @@ export interface Job {
   maxWeekHours: number;
   workModality: string;
   workLocation: string;
-  company: {
-    companyId: string;
-    name: string;
-    email: string;
-    address: string;
-    website: string;
-    isActive: boolean;
-    recruiters: {}[];
-  };
+  company: ICompanyProps;
   recruiter: {
     recruiterId: string;
     firstName: string;
@@ -35,5 +28,4 @@ export interface Job {
     experienceYears: number;
   }[]
   benefits: string[];
-  companyLogo?: string;
 }

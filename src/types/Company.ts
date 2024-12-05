@@ -1,7 +1,10 @@
 export interface ICompanyProps {
   companyId: string;
   name: string;
+  email: string;
   address: string;
   website: string;
-  email: string;
+  companyLogo: string;
+  isActive: boolean;
+  recruiters: {}[];
 }
