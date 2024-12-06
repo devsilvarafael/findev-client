@@ -1,13 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Menu } from "@/components/Menu/Menu";
-import { menuItems } from "@/components/Menu/menuItems";
 import { DefaultLayout } from "@/layouts/DefaultLayout";
-import { SearchBar } from "@/components/SearchBar";
-import { JobsList } from "@/components/JobsList";
-import { JobCreateDialog } from "@/components/JobCreateDialog";
-import { Button } from "@/components/ui/button";
 import { Job } from "@/types/Job";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/services/api";

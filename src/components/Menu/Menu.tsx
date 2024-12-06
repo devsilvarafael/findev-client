@@ -1,6 +1,5 @@
 "use client";
 
-import { IMenuProps } from "@/types/Menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   BriefcaseIcon,
@@ -12,11 +11,20 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useUserContext } from "@/contexts/UserContext";
+import { useEffect, useState } from "react";
 
 export const Menu = () => {
   const { userData } = useUserContext();
-  const existsUser = localStorage.getItem("@User")
-  const userStoragedData = existsUser && JSON.parse(existsUser);
+  const [userStoragedData, setUserStoragedData] = useState<{
+    role: string;
+  } | null>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("@User");
+    if (storedUser) {
+      setUserStoragedData(JSON.parse(storedUser));
+    }
+  }, []);
 
   const getMenuItems = (role: string) => {
     switch (role) {
@@ -65,7 +73,7 @@ export const Menu = () => {
                 href={item.path}
                 className="flex items-center p-2 text-sm font-medium text-gray-200 hover:bg-gray-700 rounded-lg"
               >
-                {getMenuIcon(item.label, userData?.role)}
+                {getMenuIcon(item.label, userStoragedData?.role || "")}
                 <span className="ml-3">{item.label}</span>
               </Link>
             </li>

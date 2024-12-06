@@ -1,19 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Menu } from "@/components/Menu/Menu";
-import { menuItems } from "@/components/Menu/menuItems";
 import { DefaultLayout } from "@/layouts/DefaultLayout";
-import { SearchBar } from "@/components/SearchBar";
-import { JobsList } from "@/components/JobsList";
-import { JobCreateDialog } from "@/components/JobCreateDialog";
-import { Button } from "@/components/ui/button";
 import { Job } from "@/types/Job";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/services/api";
-import { JobCard } from "@/components/JobCard";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import JobCardItem from "@/components/Jobs/JobCardItem";
 
 export default function Page({ params }: any): JSX.Element {

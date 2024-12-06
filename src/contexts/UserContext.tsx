@@ -21,11 +21,12 @@ const UserContext = createContext<UserContextType | null>(null);
 
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
     const [simpleUserJson, setSimpleUserJson] = useState<SimpleUserType | null>(null);
-    const [userDetailsInLocalStorage, setUserDetailsInLocalStorage] = useState<boolean>(
-        !!localStorage.getItem("@UserDetails")
-    );
 
-    const isLogged = !!localStorage.getItem("authToken");
+    let isLogged = false;
+
+    useEffect(() => {
+        isLogged = !!localStorage.getItem("authToken");
+    }, [])
 
     const getUserRoleEndpoint = (role: string) => {
         switch (role) {
