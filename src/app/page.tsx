@@ -48,6 +48,10 @@ export default function Login() {
         if (response.data.role === "RECRUITER") {
           router.push("/jobs/announces")
         }
+
+        if (response.data.role === "ADMINISTRATOR") {
+          router.push("/admin")
+        }
       }
 
       return response.data

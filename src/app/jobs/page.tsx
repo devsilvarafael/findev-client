@@ -36,7 +36,7 @@ export default function Page({ params }: any): JSX.Element {
 
 
     return (
-        <DefaultLayout leftSideBar={<Menu items={menuItems} />}>
+        <DefaultLayout leftSideBar={<Menu />}>
             <div className="p-4">
                 <div className="flex justify-between">
                     <h1 className="text-2xl font-bold mb-4">Vagas Recomendadas</h1>

@@ -1,30 +1,34 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Menu } from "@/components/Menu/Menu";
 import { menuItems } from "@/components/Menu/menuItems";
 import { DefaultLayout } from "@/layouts/DefaultLayout";
-import { SearchBar } from "@/components/SearchBar";
-import { JobsList } from "@/components/JobsList";
-import { JobCreateDialog } from "@/components/JobCreateDialog";
-import { Button } from "@/components/ui/button";
 import { Job } from "@/types/Job";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/services/api";
 import JobCardItem from "@/components/Jobs/JobCardItem";
+import { useSearchParams } from "next/navigation"; // Import the correct hook
 
 export default function Page({ params }: any): JSX.Element {
+  const searchParams = useSearchParams(); // Use this for query parameters
+  const jobId = searchParams.get("jobId"); // Retrieve the jobId parameter
+
   const { data: recruiterJobs, isLoading: isLoadingRecruiterJobs } = useQuery({
-    queryKey: ["recruiter-jobs"],
+    queryKey: ["recruiter-jobs", jobId], // Add jobId as a dependency
     queryFn: async () => {
-      const existsStorage: string | null = localStorage.getItem("@User")
+      const existsStorage: string | null = localStorage.getItem("@User");
       const user = existsStorage ? JSON.parse(existsStorage) : null;
 
-      const response = await api.get(`/jobs/recruiter/${user?.id}`)
+      if (!jobId) {
+        throw new Error("Job ID is required");
+      }
 
-      return response.data
+      const response = await api.get(`/candidates/job/${jobId}`);
+
+      return response.data;
     },
-  })
+    enabled: !!jobId, // Only fetch if jobId is available
+  });
 
   return (
     <DefaultLayout leftSideBar={<Menu items={menuItems} />}>
@@ -36,7 +40,7 @@ export default function Page({ params }: any): JSX.Element {
 
         <div className="grid grid-cols-3 gap-2">
           {recruiterJobs?.content.map((job: Job) => (
-            <JobCardItem job={job} />
+            <JobCardItem key={job.id} job={job} />
           ))}
         </div>
       </div>

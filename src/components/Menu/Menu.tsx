@@ -8,22 +8,54 @@ import {
   LogOutIcon,
   SettingsIcon,
   UserIcon,
+  UsersIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { useUserContext } from "@/contexts/UserContext";
 
-export const Menu = ({ items }: IMenuProps) => {
-  const userData = JSON.parse(localStorage.getItem("@UserDetails") || "")
+export const Menu = () => {
+  const { userData } = useUserContext();
+  const existsUser = localStorage.getItem("@User")
+  const userStoragedData = existsUser && JSON.parse(existsUser);
+
+  const getMenuItems = (role: string) => {
+    switch (role) {
+      case "ADMINISTRATOR":
+        return [
+          { label: "Vagas", path: "/admin/jobs" },
+          { label: "Recrutadores", path: "/admin/recruiters" },
+          { label: "Perfil", path: "/profile" },
+        ];
+      case "DEVELOPER":
+        return [
+          { label: "Vagas", path: "/jobs" },
+          { label: "Perfil", path: "/profile" },
+        ];
+      case "RECRUITER":
+        return [
+          { label: "Minhas Vagas", path: "/announces" },
+          { label: "Candidatos", path: "/candidates" },
+          { label: "Perfil", path: "/profile" },
+        ];
+      default:
+        return [];
+    }
+  };
+
+  const items = getMenuItems(userStoragedData?.role || "");
 
   return (
-    <div className=" flex flex-col px-4 h-screen bg-gray-900 text-white py-6">
+    <div className="flex flex-col px-4 h-screen bg-gray-900 text-white py-6">
       <div className="h-full flex flex-col items-center space-y-12">
         <div className="flex flex-col items-center space-y-4 w-full">
           <Avatar className="w-20 h-20">
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <p className="text-lg font-medium">{userData.firstName} {userData.lastName}</p>
-          <p className="text-sm text-gray-400">{userData.email}</p>
+          <p className="text-lg font-medium">
+            {userData?.firstName} {userData?.lastName}
+          </p>
+          <p className="text-sm text-gray-400">{userData?.email}</p>
         </div>
 
         <ul className="flex flex-col space-y-4 w-full">
@@ -33,7 +65,7 @@ export const Menu = ({ items }: IMenuProps) => {
                 href={item.path}
                 className="flex items-center p-2 text-sm font-medium text-gray-200 hover:bg-gray-700 rounded-lg"
               >
-                {getMenuIcon(item.label)}
+                {getMenuIcon(item.label, userData?.role)}
                 <span className="ml-3">{item.label}</span>
               </Link>
             </li>
@@ -50,6 +82,9 @@ export const Menu = ({ items }: IMenuProps) => {
           </Link>
           <Link
             href="/"
+            onClick={() => {
+              localStorage.clear();
+            }}
             className="flex items-center p-2 text-sm font-medium text-gray-200 hover:bg-gray-700 rounded-lg"
           >
             <LogOutIcon className="w-5 h-5" />
@@ -61,12 +96,16 @@ export const Menu = ({ items }: IMenuProps) => {
   );
 };
 
-const getMenuIcon = (label: string) => {
+const getMenuIcon = (label: string, role: string) => {
   switch (label.toLowerCase()) {
     case "vagas":
+    case "minhas vagas":
       return <BriefcaseIcon className="w-5 h-5" />;
     case "perfil":
       return <UserIcon className="w-5 h-5" />;
+    case "recrutadores":
+    case "candidatos":
+      return <UsersIcon className="w-5 h-5" />;
     default:
       return <HomeIcon className="w-5 h-5" />;
   }

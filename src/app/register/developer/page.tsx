@@ -36,7 +36,7 @@ export default function Developer() {
 
   return (
     <CurrentFormProvider>
-      <RegisterLayout>
+      <RegisterLayout description={"Encontre o emprego que você sonha."}>
         <TabsForm
           forms={[
             <RegisterForm

@@ -71,7 +71,7 @@ export default function Recruiter() {
 
   return (
     <CurrentFormProvider>
-      <RegisterLayout>
+      <RegisterLayout description="As pessoas certas para a sua empresa.">
         <TabsForm
           forms={[
             <RegisterForm

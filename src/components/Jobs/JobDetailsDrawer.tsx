@@ -30,7 +30,7 @@ const JobDetailsDrawer: FC<JobDetailsDrawerProps> = ({ job, isOpen, onClose }) =
     const applyToJob = async () => {
         try {
             const response = await api.post(`/jobs/${job.id}/apply`, {
-                developerId: simpleUserJson.id,
+                developerId: simpleUserJson?.id,
             });
 
             toast.success("Candidatura enviada com sucesso!", {
@@ -48,7 +48,7 @@ const JobDetailsDrawer: FC<JobDetailsDrawerProps> = ({ job, isOpen, onClose }) =
     };
 
     const redirectRecruiter = () => {
-        router.push("/jobs/candidates")
+        router.push(`/jobs/${job.id}/candidates`)
     }
 
     return (
@@ -117,11 +117,11 @@ const JobDetailsDrawer: FC<JobDetailsDrawerProps> = ({ job, isOpen, onClose }) =
                 </div>
                 <div className="mt-6">
                     <Button className="w-full" onClick={() => {
-                        if (simpleUserJson.role === "RECRUITER") return redirectRecruiter();
-                        if (simpleUserJson.role === "DEVELOPER") return applyToJob();
+                        if (simpleUserJson?.role === "RECRUITER") return redirectRecruiter();
+                        if (simpleUserJson?.role === "DEVELOPER") return applyToJob();
                     }}>
-                        {simpleUserJson.role === "RECRUITER" && `Visualizar ${job.candidatures.length} candidato(s)`}
-                        {simpleUserJson.role === "DEVELOPER" && `Candidatar agora`}
+                        {simpleUserJson?.role === "RECRUITER" && `Visualizar ${job.candidatures.length} candidato(s)`}
+                        {simpleUserJson?.role === "DEVELOPER" && `Candidatar agora`}
                     </Button>
                 </div>
             </DrawerContent>
