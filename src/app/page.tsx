@@ -9,7 +9,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "sonner";
 
 export default function Login() {
-  const router = useRouter()
+  const router = useRouter();
 
   const [user, setUser] = useState({
     email: "",
@@ -28,35 +28,38 @@ export default function Login() {
 
     try {
       const response = await api.post("/auth/login", {
-        "email": user.email,
-        "password": user.password
-      })
+        email: user.email,
+        password: user.password,
+      });
 
       if (response.status === 200) {
-        localStorage.setItem("@User", (JSON.stringify({
-          id: response.data.id,
-          role: response.data.role,
-          email: response.data.name
-        })))
+        localStorage.setItem(
+          "@User",
+          JSON.stringify({
+            id: response.data.id,
+            role: response.data.role,
+            email: response.data.name,
+          })
+        );
 
-        localStorage.setItem("authToken", JSON.stringify(response.data.token))
+        localStorage.setItem("authToken", JSON.stringify(response.data.token));
 
         if (response.data.role === "DEVELOPER") {
-          router.push("/jobs")
+          router.push("/jobs");
         }
 
         if (response.data.role === "RECRUITER") {
-          router.push("/jobs/announces")
+          router.push("/jobs/announces");
         }
 
         if (response.data.role === "ADMINISTRATOR") {
-          router.push("/admin")
+          router.push("/admin/recruiters");
         }
       }
 
-      return response.data
+      return response.data;
     } catch (err: any) {
-      toast.error(err)
+      toast.error(err.response.data);
     }
   };
 

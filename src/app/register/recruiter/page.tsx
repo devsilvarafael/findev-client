@@ -7,31 +7,14 @@ import { TabsForm } from "@/components/Forms/Tabs";
 import { CurrentFormProvider } from "@/contexts/CurrentFormContext";
 import api from "@/services/api";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+
 import { useEffect, useState } from "react";
-import { set } from "react-hook-form";
 import { ICompanyProps } from "@/types/Company";
-
-const submitRecruiterData = async (data: any) => {
-  try {
-    const formattedRecruiterJson = {
-      ...data,
-      company: data.company.value,
-    };
-
-    const response = await api.post("/recruiters", formattedRecruiterJson);
-
-    if (response.status === 201) {
-      toast.success("Cadastro realizado com sucesso");
-
-      return;
-    }
-  } catch (error) {
-    toast.error("Erro ao realizar cadastro");
-  }
-};
+import { useRouter } from "next/navigation";
 
 export default function Recruiter() {
+  const router = useRouter();
+
   const [availableCompanies, setAvailableCompanies] = useState([]);
 
   const fetchCompanies = async (): Promise<ICompanyProps> => {
@@ -43,6 +26,27 @@ export default function Recruiter() {
     } catch (error) {
       toast.error("Erro ao buscar empresas");
       throw error;
+    }
+  };
+
+  const submitRecruiterData = async (data: any) => {
+    try {
+      const formattedRecruiterJson = {
+        ...data,
+        company: data.company.value,
+      };
+
+      const response = await api.post("/recruiters", formattedRecruiterJson);
+
+      if (response.status === 201) {
+        toast.success("Cadastro realizado com sucesso");
+
+        router.push("/");
+
+        return;
+      }
+    } catch (error) {
+      toast.error("Erro ao realizar cadastro");
     }
   };
 
