@@ -11,6 +11,8 @@ import { Modal } from "@/components/Modal/Modal";
 import { Switch } from "@/components/ui/switch";
 import { updateUserStatus } from "./_mutations/updateUserStatusMutation";
 import { useToggle } from "@/hooks/useToogle";
+import { Button } from "@/components/ui/button";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 const AdminPage = (): JSX.Element => {
   const [selectedRecruiter, setSelectedRecruiter] = useState<any | null>(null);
@@ -115,28 +117,8 @@ const AdminPage = (): JSX.Element => {
     { accessorKey: "email", header: "Email" },
     { accessorKey: "phone", header: "Telefone" },
     {
-      accessorKey: "actions",
-      header: "Ações",
-      cell: ({ row }: any) => (
-        <div className="flex space-x-2">
-          <button
-            onClick={() => handleEdit(row.original)}
-            className="text-blue-500 hover:underline"
-          >
-            Editar
-          </button>
-          <button
-            onClick={() => handleDelete(row.original.recruiterId)}
-            className="text-red-500 hover:underline"
-          >
-            Excluir
-          </button>
-        </div>
-      ),
-    },
-    {
       accessorKey: "status-user",
-      header: "Status",
+      header: "Ativo",
       cell: ({ row }: any) => {
         const { recruiterId, isActive } = row.original;
         const [toggleState, toggle] = useToggle(isActive);
@@ -148,6 +130,20 @@ const AdminPage = (): JSX.Element => {
           />
         );
       },
+    },
+    {
+      accessorKey: "actions",
+      header: "Ações",
+      cell: ({ row }: any) => (
+        <div className="flex items-center">
+          <Button className="bg-transparent text-gray-700 hover:bg-transparent" onClick={() => handleEdit(row.original)}>
+            <FaEdit className="w-5 h-5" />
+          </Button>
+          <Button className="bg-transparent text-red-700 hover:bg-transparent" onClick={() => handleDelete(row.original.recruiterId)}>
+            <FaTrash className="w-4 h-4" />
+          </Button>
+        </div >
+      ),
     },
   ];
 

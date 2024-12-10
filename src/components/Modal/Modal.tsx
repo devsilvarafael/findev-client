@@ -100,7 +100,7 @@ export const Modal = ({
                             Fechar
                         </Button>
                     </DialogClose>
-                    <Button variant="outline" onClick={handleSubmit} className="bg-main text-white">
+                    <Button variant="outline" onClick={handleSubmit} className="bg-main text-white" type="submit">
                         Salvar
                     </Button>
                 </DialogFooter>
