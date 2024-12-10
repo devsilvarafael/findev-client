@@ -2,7 +2,9 @@
 
 import {
   createContext,
+  Dispatch,
   ReactNode,
+  SetStateAction,
   useContext,
   useEffect,
   useState,
@@ -21,6 +23,7 @@ type UserContextType = {
   userData: any | null;
   isLoadingUserData: boolean;
   refetchUserData: () => void;
+  setIsLogged: Dispatch<SetStateAction<boolean>>
 };
 
 const UserContext = createContext<UserContextType | null>(null);
@@ -77,7 +80,7 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <UserContext.Provider
-      value={{ simpleUserJson, userData, isLoadingUserData, refetchUserData }}
+      value={{ simpleUserJson, userData, isLoadingUserData, refetchUserData, setIsLogged }}
     >
       {children}
     </UserContext.Provider>

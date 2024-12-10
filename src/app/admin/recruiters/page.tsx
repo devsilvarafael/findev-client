@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { DataTable } from "@/components/DataTable/DataTable";
 import { Menu } from "@/components/Menu/Menu";
 import { DefaultLayout } from "@/layouts/DefaultLayout";
@@ -8,10 +8,14 @@ import { DefaultLayout } from "@/layouts/DefaultLayout";
 import api from "@/services/api";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Modal } from "@/components/Modal/Modal";
+import { Switch } from "@/components/ui/switch";
+import { updateUserStatus } from "./_mutations/updateUserStatusMutation";
+import { useToggle } from "@/hooks/useToogle";
 
 const AdminPage = (): JSX.Element => {
   const [selectedRecruiter, setSelectedRecruiter] = useState<any | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [toggle, setToggle] = useToggle(false)
 
   const queryClient = useQueryClient();
 
@@ -31,14 +35,6 @@ const AdminPage = (): JSX.Element => {
       const response = await api.put(`/recruiters/${formData.recruiterId}`, formData);
       return response.data;
     },
-
-    // const response = await api.put(`/recruiters/${formData.recruiterId}`, {
-    //   firstName: formData.firstName,
-    //   lastName: formData.lastName,
-    //   email: formData.email,
-    //   avatar: formData.avatar,
-    //   phone: formData.phone
-    // });
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["admin-recruiters"]
@@ -79,6 +75,26 @@ const AdminPage = (): JSX.Element => {
     }
   };
 
+  const updateUserStatusMutation = useMutation({
+    mutationFn: updateUserStatus
+  });
+
+  function handleOnChange(userId: string, currentStatus: boolean, toggler: () => void) {
+    toggler();
+    updateUserStatusMutation.mutate({
+      userId,
+      isActive: !currentStatus,
+    }, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["admin-recruiters"]
+        });
+      }
+    });
+  }
+
+
+
   const fields = [
     { name: "firstName", label: "First Name", type: "text" },
     { name: "lastName", label: "Last Name", type: "text" },
@@ -118,7 +134,24 @@ const AdminPage = (): JSX.Element => {
         </div>
       ),
     },
+    {
+      accessorKey: "status-user",
+      header: "Status",
+      cell: ({ row }: any) => {
+        const { recruiterId, isActive } = row.original;
+        const [toggleState, toggle] = useToggle(isActive);
+        return (
+          <Switch
+            id="status-user-toggle"
+            checked={toggleState}
+            onCheckedChange={() => handleOnChange(recruiterId, toggleState, toggle)}
+          />
+        );
+      },
+    },
   ];
+
+
 
   return (
     <DefaultLayout leftSideBar={<Menu />}>

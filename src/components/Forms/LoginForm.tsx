@@ -11,7 +11,7 @@ export const LoginForm = ({ onSubmit, onChange, user }: LoginFormProps) => {
   return (
     <form className="flex flex-col gap-2 w-2/5" onSubmit={onSubmit}>
       <Label htmlFor="email">Entre com seu e-mail</Label>
-      <Input value={user.email} onChange={onChange} name="email" />
+      <Input value={user.email} onChange={onChange} name="email" type="email" />
 
       <Label htmlFor="password">Entre com sua senha</Label>
       <Input value={user.password} onChange={onChange} name="password" type="password" />

@@ -17,8 +17,8 @@ export default function Developer() {
       const formattedDeveloperJson = {
         ...data,
         seniority: data.seniority.value,
-        skills: data.skills.map((skill: { value: string; label: string }) => ({
-          name: skill.value,
+        skills: data.skills.map((skill: { id: number, value: string; label: string }) => ({
+          skillId: skill.id,
           experienceYears: 0,
         })),
       };

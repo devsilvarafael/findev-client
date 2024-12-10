@@ -14,7 +14,7 @@ import { useUserContext } from "@/contexts/UserContext";
 import { useEffect, useState } from "react";
 
 export const Menu = () => {
-  const { userData } = useUserContext();
+  const { userData, setIsLogged } = useUserContext();
   const [userStoragedData, setUserStoragedData] = useState<{
     role: string;
   } | null>(null);
@@ -91,6 +91,7 @@ export const Menu = () => {
           <Link
             href="/"
             onClick={() => {
+              setIsLogged(false);
               localStorage.clear();
             }}
             className="flex items-center p-2 text-sm font-medium text-gray-200 hover:bg-gray-700 rounded-lg"

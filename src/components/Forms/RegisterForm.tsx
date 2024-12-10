@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, ReactNode } from "react";
 import { NextPage } from "next";
 import "tailwindcss/tailwind.css";
 import { useCurrentForm } from "@/contexts/CurrentFormContext";
@@ -24,11 +24,13 @@ export interface FormField {
 interface RegisterFormProps {
   formFields: FormField[];
   onSubmit: (data: any) => void;
+  children?: ReactNode;
 }
 
 export const RegisterForm: NextPage<RegisterFormProps> = ({
   formFields,
   onSubmit,
+  children
 }) => {
   const { currentFormId, updateFormData, formData, updateCurrentForm } =
     useCurrentForm();
@@ -70,22 +72,25 @@ export const RegisterForm: NextPage<RegisterFormProps> = ({
           {formFields.map((field: FormField) => (
             <Fragment key={field.name}>
               {field.type === "select" ? (
-                <Controller
-                  control={control}
-                  name={field.name}
-                  rules={{ required: field.required }}
-                  render={({ field: { onChange, value } }) => (
-                    <Select
-                      options={field.items}
-                      isMulti={field.name === "skills"}
-                      onChange={(selectedOption) => onChange(selectedOption)}
-                      placeholder={field.placeholder}
-                      value={value}
-                      className="react-select-container"
-                      classNamePrefix="react-select"
-                    />
-                  )}
-                />
+                <>
+                  <Controller
+                    control={control}
+                    name={field.name}
+                    rules={{ required: field.required }}
+                    render={({ field: { onChange, value } }) => (
+                      <Select
+                        options={field.items}
+                        isMulti={field.name === "skills"}
+                        onChange={(selectedOption) => onChange(selectedOption)}
+                        placeholder={field.placeholder}
+                        value={value}
+                        className="react-select-container"
+                        classNamePrefix="react-select"
+                      />
+                    )}
+                  />
+                  {children}
+                </>
               ) : (
                 <input
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-200"
@@ -100,19 +105,17 @@ export const RegisterForm: NextPage<RegisterFormProps> = ({
             </Fragment>
           ))}
           <button
-            className={`w-full px-4 py-2 mt-4 text-white ${
-              !isSubmitting ? "bg-purple-600" : "bg-gray-300"
-            } rounded-md ${
-              !isSubmitting ? "hover:bg-purple-700" : ""
-            } focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-200`}
+            className={`w-full px-4 py-2 mt-4 text-white ${!isSubmitting ? "bg-purple-600" : "bg-gray-300"
+              } rounded-md ${!isSubmitting ? "hover:bg-purple-700" : ""
+              } focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-200`}
             type="submit"
             disabled={isSubmitting}
           >
             {isSubmitting
               ? "Enviando dados..."
               : currentFormId === 1
-              ? "Cadastrar"
-              : "Próximo"}
+                ? "Cadastrar"
+                : "Próximo"}
           </button>
 
           <p className="text-sm text-center text-gray-600">
