@@ -14,10 +14,10 @@ import { useToggle } from "@/hooks/useToogle";
 import { Button } from "@/components/ui/button";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
-const AdminPage = (): JSX.Element => {
+const AdminRecruitersPage = (): JSX.Element => {
   const [selectedRecruiter, setSelectedRecruiter] = useState<any | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [toggle, setToggle] = useToggle(false)
+  const [toggle, setToggle] = useToggle(false);
 
   const queryClient = useQueryClient();
 
@@ -34,12 +34,15 @@ const AdminPage = (): JSX.Element => {
 
   const updateRecruiterMutation = useMutation({
     mutationFn: async (formData: any) => {
-      const response = await api.put(`/recruiters/${formData.recruiterId}`, formData);
+      const response = await api.put(
+        `/recruiters/${formData.recruiterId}`,
+        formData
+      );
       return response.data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["admin-recruiters"]
+        queryKey: ["admin-recruiters"],
       });
       setIsModalOpen(false);
     },
@@ -54,7 +57,7 @@ const AdminPage = (): JSX.Element => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["admin-recruiters"]
+        queryKey: ["admin-recruiters"],
       });
     },
     onError: (error) => {
@@ -78,24 +81,29 @@ const AdminPage = (): JSX.Element => {
   };
 
   const updateUserStatusMutation = useMutation({
-    mutationFn: updateUserStatus
+    mutationFn: updateUserStatus,
   });
 
-  function handleOnChange(userId: string, currentStatus: boolean, toggler: () => void) {
+  function handleOnChange(
+    userId: string,
+    currentStatus: boolean,
+    toggler: () => void
+  ) {
     toggler();
-    updateUserStatusMutation.mutate({
-      userId,
-      isActive: !currentStatus,
-    }, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["admin-recruiters"]
-        });
+    updateUserStatusMutation.mutate(
+      {
+        userId,
+        isActive: !currentStatus,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ["admin-recruiters"],
+          });
+        },
       }
-    });
+    );
   }
-
-
 
   const fields = [
     { name: "firstName", label: "First Name", type: "text" },
@@ -126,7 +134,9 @@ const AdminPage = (): JSX.Element => {
           <Switch
             id="status-user-toggle"
             checked={toggleState}
-            onCheckedChange={() => handleOnChange(recruiterId, toggleState, toggle)}
+            onCheckedChange={() =>
+              handleOnChange(recruiterId, toggleState, toggle)
+            }
           />
         );
       },
@@ -136,18 +146,22 @@ const AdminPage = (): JSX.Element => {
       header: "Ações",
       cell: ({ row }: any) => (
         <div className="flex items-center">
-          <Button className="bg-transparent text-gray-700 hover:bg-transparent" onClick={() => handleEdit(row.original)}>
+          <Button
+            className="bg-transparent text-gray-700 hover:bg-transparent"
+            onClick={() => handleEdit(row.original)}
+          >
             <FaEdit className="w-5 h-5" />
           </Button>
-          <Button className="bg-transparent text-red-700 hover:bg-transparent" onClick={() => handleDelete(row.original.recruiterId)}>
+          <Button
+            className="bg-transparent text-red-700 hover:bg-transparent"
+            onClick={() => handleDelete(row.original.recruiterId)}
+          >
             <FaTrash className="w-4 h-4" />
           </Button>
-        </div >
+        </div>
       ),
     },
   ];
-
-
 
   return (
     <DefaultLayout leftSideBar={<Menu />}>
@@ -178,4 +192,4 @@ const AdminPage = (): JSX.Element => {
   );
 };
 
-export default AdminPage;
+export default AdminRecruitersPage;

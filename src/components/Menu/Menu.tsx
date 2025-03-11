@@ -41,7 +41,7 @@ export const Menu = () => {
         ];
       case "RECRUITER":
         return [
-          { label: "Minhas Vagas", path: "/announces" },
+          { label: "Minhas Vagas", path: "/jobs/announces" },
           { label: "Candidatos", path: "/candidates" },
           { label: "Perfil", path: "/profile" },
         ];

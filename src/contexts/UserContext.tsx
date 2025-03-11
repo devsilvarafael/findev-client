@@ -14,7 +14,7 @@ import api from "@/services/api";
 
 type SimpleUserType = {
   id: string;
-  role: "RECRUITER" | "DEVELOPER" | "ADMIN";
+  role: "RECRUITER" | "DEVELOPER" | "ADMIN" | "ADMINISTRATOR";
   email: string;
 };
 
@@ -23,7 +23,7 @@ type UserContextType = {
   userData: any | null;
   isLoadingUserData: boolean;
   refetchUserData: () => void;
-  setIsLogged: Dispatch<SetStateAction<boolean>>
+  setIsLogged: Dispatch<SetStateAction<boolean>>;
 };
 
 const UserContext = createContext<UserContextType | null>(null);
@@ -80,7 +80,13 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <UserContext.Provider
-      value={{ simpleUserJson, userData, isLoadingUserData, refetchUserData, setIsLogged }}
+      value={{
+        simpleUserJson,
+        userData,
+        isLoadingUserData,
+        refetchUserData,
+        setIsLogged,
+      }}
     >
       {children}
     </UserContext.Provider>

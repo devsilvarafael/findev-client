@@ -2,7 +2,7 @@ import { ICompanyProps } from "./Company";
 import { Developer } from "./Developer";
 
 export interface Job {
-  id: number;
+  id: string;
   title: string;
   description: string;
   status: number;
